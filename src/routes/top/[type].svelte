@@ -1,38 +1,27 @@
 <script context="module">
-  import { top, loading } from "../../stores.js";
-
+  import { getData } from "~/helper.js";
   export async function preload({ params, query }) {
-    const res = await this.fetch(`https://api.jikan.moe/v3/top/anime/1/${params.type}`);
-    const data = await res.json();
+    let type = params.type;
+    getData(type);
 
-		if (res.status === 200) {
-      top.set(data['top']);
-			return {
-        type: params.type
-      };
-		} else {
-			this.error(res.status, data.message);
-		}
+    return {
+      type: type
+    };
   }
 </script>
 
 <script>
-  export let type, data, isLoading;
+  import { top } from "~/stores.js";
+  import { onMount } from "svelte";
+  export let type, data;
+
+  onMount(async () => {
+    getData(type);
+  });
 
   top.subscribe(value => {
     data = value;
   });
-
-  loading.subscribe(value => {
-    isLoading = value;
-  });
-
-  // console.log("Data: " + data);
-  // console.log("Loading: " + isLoading);
-
-  setTimeout(() => {
-    console.log(data);
-  }, 3000);
 </script>
 
 <style>

@@ -14,8 +14,10 @@
 
 <div class="button-container">
   <center>
-      {#each data as item}
-      <a href="{item.url}" class="button is-link is-light">{item.name.toUpperCase()}</a>
-      {/each}
+    {#each data as item}
+      <a href={item.url} class="button is-link is-light">
+        {item.name.toUpperCase()}
+      </a>
+    {/each}
   </center>
 </div>
