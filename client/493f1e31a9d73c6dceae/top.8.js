@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[8],{38:function(t,e,s){"use strict";s.r(e);var c=s(0);function n(t){return{c(){this.h()},l(t){Object(c.D)('[data-svelte="svelte-1aq573u"]',document.head).forEach(c.p),this.h()},h(){document.title="Top"},m:c.B,p:c.B,i:c.B,o:c.B,d:c.B}}class o extends c.a{constructor(t){super(),Object(c.w)(this,t,null,n,c.F,{})}}e.default=o}}]);
