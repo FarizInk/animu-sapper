@@ -6,10 +6,13 @@ import babel from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import config from 'sapper/config/rollup.js';
 import pkg from './package.json';
+import includePaths from "rollup-plugin-includepaths";
 
 const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
 const legacy = !!process.env.SAPPER_LEGACY_BUILD;
+
+const smelte = require("smelte/rollup-plugin-smelte");
 
 const onwarn = (warning, onwarn) =>
 	(warning.code === 'MISSING_EXPORT' && /'preload'/.test(warning.message)) ||
@@ -30,11 +33,13 @@ export default {
 				hydratable: true,
 				emitCss: true
 			}),
+			!dev && smelte,
 			resolve({
 				browser: true,
 				dedupe: ['svelte']
 			}),
 			commonjs(),
+			includePaths({ paths: ["./src", "./", "./node_modules/smelte/src/"] }),
 
 			legacy && babel({
 				extensions: ['.js', '.mjs', '.html', '.svelte'],
@@ -55,7 +60,7 @@ export default {
 
 			!dev && terser({
 				module: true
-			})
+			}),
 		],
 
 		preserveEntrySignatures: false,
@@ -75,10 +80,12 @@ export default {
 				hydratable: true,
 				dev
 			}),
+			smelte(),
 			resolve({
 				dedupe: ['svelte']
 			}),
-			commonjs()
+			includePaths({ paths: ["./src", "./", "./node_modules/smelte/src/"] }),
+			commonjs(),
 		],
 		external: Object.keys(pkg.dependencies).concat(require('module').builtinModules),
 
